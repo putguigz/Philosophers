@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 17:33:39 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/07 11:03:17 by user             ###   ########.fr       */
+/*   Updated: 2021/08/07 13:36:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	main(int ac, char **av)
 	if (register_philo_input(av, &philo))
 	{
 		ft_putstr_fd("Wrong input\n", 2);
+		return (0);
+	}
+	if (start_vandevilling(&philo))
+	{
+		ft_putstr_fd("Error\n", 2);
 		return (0);
 	}
 	return (0);

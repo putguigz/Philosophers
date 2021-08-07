@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/07 10:47:59 by user             ###   ########.fr       */
+/*   Updated: 2021/08/07 19:12:38 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # define ERROR -1
 # define SUCCESS 0
+
 typedef struct s_philo
 {
 	int	nb;
@@ -30,7 +31,14 @@ typedef struct s_philo
 	int	tts;
 	int	meals_flag;
 	int	meals;
+	struct timeval time;
 }	t_philo;
+
+//AUTRES
+int		start_vandevilling(t_philo *philo);
+
+//CLOCK
+long	get_time_elapsed(t_philo *philo);
 
 //UTILS
 void	ft_putstr_fd(char *s, int fd);
