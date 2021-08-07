@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by user              #+#    #+#             */
-/*   Updated: 2021/08/07 19:18:19 by user             ###   ########.fr       */
+/*   Updated: 2021/08/07 19:24:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	start_vandevilling(t_philo *philo)
 {
-	long time;
+	long	time;
 
 	if (gettimeofday(&(philo->time), NULL))
 		return (ERROR);

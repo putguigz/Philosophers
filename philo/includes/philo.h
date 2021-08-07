@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/07 19:12:38 by user             ###   ########.fr       */
+/*   Updated: 2021/08/07 19:24:45 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 
 typedef struct s_philo
 {
-	int	nb;
-	int	ttd;
-	int	tte;
-	int	tts;
-	int	meals_flag;
-	int	meals;
-	struct timeval time;
+	int				nb;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				meals_flag;
+	int				meals;
+	struct timeval	time;
 }	t_philo;
 
 //AUTRES

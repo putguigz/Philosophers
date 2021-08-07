@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 10:21:48 by user              #+#    #+#             */
-/*   Updated: 2021/08/07 11:02:47 by user             ###   ########.fr       */
+/*   Updated: 2021/08/07 19:24:35 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	input_conformity(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{
@@ -47,7 +47,7 @@ void	store_in_philo_struct(int i, char *str, t_philo *philo)
 
 int	register_philo_input(char **av, t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (av[i])

@@ -1,51 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/07 10:22:08 by user              #+#    #+#             */
-/*   Updated: 2021/08/07 19:26:58 by user             ###   ########.fr       */
+/*   Created: 2021/08/07 19:26:31 by user              #+#    #+#             */
+/*   Updated: 2021/08/07 19:27:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_putchar_fd(char c, int fd)
+int	ft_isdigit(int c)
 {
-	write(fd, &c, 1);
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }
 
-void	ft_putchar(char c)
+long	ft_atoi(const char *str)
 {
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *s)
-{
-	int	i;
+	long	i;
+	int		sign;
+	long	nb;
 
 	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
+	nb = 0;
+	sign = 1;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		ft_putchar(s[i]);
+		if (str[i] == '-')
+			sign = -sign;
 		i++;
 	}
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		ft_putchar_fd(s[i], fd);
+		nb = nb * 10 + (str[i] - '0');
 		i++;
 	}
+	return (sign * nb);
 }
