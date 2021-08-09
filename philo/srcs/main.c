@@ -6,38 +6,38 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 17:33:39 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/07 13:36:47 by user             ###   ########.fr       */
+/*   Updated: 2021/08/09 16:03:21 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philo_struct(t_philo *philo)
+void	init_datas_struct(t_datas *data)
 {
-	philo->nb = 0;
-	philo->ttd = 0;
-	philo->tte = 0;
-	philo->tts = 0;
-	philo->meals_flag = 0;
-	philo->meals = 0;
+	data->nb = 0;
+	data->ttd = 0;
+	data->tte = 0;
+	data->tts = 0;
+	data->meals_flag = 0;
+	data->meals = 0;
 }
 
 int	main(int ac, char **av)
 {
-	t_philo	philo;
+	t_datas	data;
 
 	if (ac != 5 && ac != 6)
 	{
 		ft_putstr_fd("Wrong number of arguments\n", 2);
 		return (0);
 	}
-	init_philo_struct(&philo);
-	if (register_philo_input(av, &philo))
+	init_datas_struct(&data);
+	if (register_philo_input(av, &data))
 	{
 		ft_putstr_fd("Wrong input\n", 2);
 		return (0);
 	}
-	if (start_vandevilling(&philo))
+	if (start_vandevilling(&data))
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (0);
