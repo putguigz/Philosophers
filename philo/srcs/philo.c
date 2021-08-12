@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by user              #+#    #+#             */
-/*   Updated: 2021/08/09 16:51:44 by user             ###   ########.fr       */
+/*   Updated: 2021/08/12 15:20:00 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ t_philo	*create_philo_give_them_forks(t_datas *data)
 
 int	start_vandevilling(t_datas *data)
 {
-	t_philo	*philo;
-
 	if (gettimeofday(&(data->time), NULL))
 		return (ERROR);
-	philo = create_philo_give_them_forks(data);
-	if (!philo)
+	data->philo = create_philo_give_them_forks(data);
+	if (!data->philo)
 		return (ERROR);
-	free(philo);
+	free(data->philo);
 	return (SUCCESS);
 }

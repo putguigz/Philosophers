@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 17:33:39 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/09 16:03:21 by user             ###   ########.fr       */
+/*   Updated: 2021/08/10 11:27:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_datas_struct(t_datas *data)
 	data->tts = 0;
 	data->meals_flag = 0;
 	data->meals = 0;
+	data->philo = NULL;
 }
 
 int	main(int ac, char **av)
