@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
+#    By: gpetit <gpetit@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/06 16:53:31 by gpetit            #+#    #+#              #
-#    Updated: 2021/08/07 19:27:14 by user             ###   ########.fr        #
+#    Updated: 2021/08/12 15:22:21 by gpetit             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CC= clang
 
 CFLAGS= -Wall -Wextra -Werror
 
-SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c)
+SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c \
+	threads.c)
 
 OBJS= $(SRCS:.c=.o)
 
