@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gpetit <gpetit@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/10 11:34:58 by user             ###   ########.fr       */
+/*   Updated: 2021/08/12 15:23:00 by gpetit             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
+
+//MULTI-THREADING
+int	launch_threads(t_datas *data);
 
 //UTILS
 void	ft_putstr_fd(char *s, int fd);
