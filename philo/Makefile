@@ -17,7 +17,7 @@ CC= clang
 CFLAGS= -Wall -Wextra -Werror
 
 SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c \
-	threads.c)
+	threads.c tamagochi_actions.c)
 
 OBJS= $(SRCS:.c=.o)
 

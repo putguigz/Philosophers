@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:29:34 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/13 20:46:06 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/19 12:07:41 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,42 @@
 
 void	*routine(void *elem)
 {
-/* 	t_datas *data;
+	t_datas *data;
 
-	data = (t_datas *)elem; */
-	printf("Bonjour je suis le philosophe numéro : %d\n", *((int *)elem));
-	free(elem);
+	static int i = 0;
+
+	data = (t_datas *)elem;
+	pthread_mutex_lock(&data->mutex);
+	i++;
+	pthread_mutex_unlock(&data->mutex);
+	tamagochi_philo(i, data);
 	return (elem);
 }
 
 int	launch_threads(t_datas *data)
 {
 	int i;
+	static int ret_status = SUCCESS;
 	pthread_t *thread;
 
 	i = 0;
 	thread = (pthread_t *)malloc(sizeof(pthread_t) * data->nb);
-	if (!thread)
-		return (ERROR);
-	while (i < data->nb)
+	if (!thread || pthread_mutex_init(&data->mutex, NULL))
+		ret_status = ERROR;
+	while (!ret_status && i < data->nb)
 	{
-		int *nb = malloc(sizeof(int));
-		*nb = i;
-		pthread_create(thread + i, NULL, &routine, nb); //PROTEGER
+		if (pthread_create(thread + i, NULL, &routine, data)) //CONTROLER RETOUR DE &ROUTINE
+			ret_status = ERROR;
 		i++;
 	}
 	i = 0;
-	while (i < data->nb)
+	while (!ret_status && i < data->nb)
 	{
-		pthread_join(thread[i], NULL); //PROTEGER
+		if (pthread_join(thread[i], NULL))
+			ret_status = ERROR;
 		i++;
 	}
-	return (SUCCESS);
+	if (thread)
+		free(thread);
+	return (ret_status);
 }
