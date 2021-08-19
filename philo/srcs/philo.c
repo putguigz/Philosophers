@@ -6,13 +6,13 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 11:59:47 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/19 16:54:29 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	set_fork_to_usable(t_philo *philo, int elems)
+int	set_fork_to_usable(t_philo *philo, int elems, t_datas *data)
 {
 	int	i;
 
@@ -23,6 +23,8 @@ int	set_fork_to_usable(t_philo *philo, int elems)
 		philo[i].fork = 1;
 		if (pthread_mutex_init(&philo[i].mutex, NULL))
 			return (ERROR);
+		philo[i].data = data;
+		philo[i].last_dinner = 0;
 		i++;
 	}
 	return (SUCCESS);
@@ -36,7 +38,7 @@ t_philo	*create_philo_give_them_forks(t_datas *data)
 	if (!philo)
 		return (NULL);
 	memset(philo, 0, sizeof(philo) * data->nb);
-	if (set_fork_to_usable(philo, data->nb))
+	if (set_fork_to_usable(philo, data->nb, data))
 	{
 		free(philo);
 		philo = NULL;

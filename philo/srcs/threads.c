@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:29:34 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 12:07:41 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/19 15:43:04 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 void	*routine(void *elem)
 {
-	t_datas *data;
+	t_philo *philo;
 
-	static int i = 0;
-
-	data = (t_datas *)elem;
-	pthread_mutex_lock(&data->mutex);
-	i++;
-	pthread_mutex_unlock(&data->mutex);
-	tamagochi_philo(i, data);
+	philo = (t_philo *)elem;
+	tamagochi_philo(philo->nb, philo->data);
 	return (elem);
 }
 
@@ -38,7 +33,7 @@ int	launch_threads(t_datas *data)
 		ret_status = ERROR;
 	while (!ret_status && i < data->nb)
 	{
-		if (pthread_create(thread + i, NULL, &routine, data)) //CONTROLER RETOUR DE &ROUTINE
+		if (pthread_create(thread + i, NULL, &routine, data->philo + i)) //CONTROLER RETOUR DE &ROUTINE
 			ret_status = ERROR;
 		i++;
 	}
