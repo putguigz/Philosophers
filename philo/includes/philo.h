@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 09:53:28 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/19 11:59:41 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ typedef struct s_datas
 	int				meals;
 	struct timeval	time;
 	struct s_philo	*philo;
-
+	pthread_mutex_t	mutex;
 }	t_datas;
 
 typedef struct s_philo
 {
-	int		nb;
-	int		fork;
+	int				nb;
+	int				fork;
+	pthread_mutex_t	mutex;
 }	t_philo;
 
 //AUTRES
@@ -50,7 +51,10 @@ int		start_vandevilling(t_datas *data);
 long	get_time_elapsed(t_datas *data);
 
 //MULTI-THREADING
-int	launch_threads(t_datas *data);
+int		launch_threads(t_datas *data);
+
+//TAMAGOCHI_ACTIONS
+int		tamagochi_philo(int thread_nb, t_datas *data);
 
 //UTILS
 void	ft_putstr_fd(char *s, int fd);
