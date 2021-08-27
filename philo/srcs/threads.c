@@ -28,8 +28,7 @@ pthread_t *create_thread_tab_init_mutex(t_datas *data)
 	pthread_t *thread;
 
 	thread = (pthread_t *)malloc(sizeof(pthread_t) * data->nb);
-	if (pthread_mutex_init(&data->mutex, NULL) || \
-	pthread_mutex_init(&data->death_mutex, NULL))
+	if (pthread_mutex_init(&data->death_mutex, NULL))
 	{
 		free(thread);
 		thread = NULL;
