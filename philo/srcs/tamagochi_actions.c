@@ -63,6 +63,17 @@ void	start_eating(int current_ph, t_datas *data)
 	data->philo[current_ph - 1].last_dinner = get_time_elapsed(data); //CONTROLLER RETOUR GET_TIME
 }
 
+void	start_sleeping(int current_ph, t_datas *data)
+{
+	printf("%ld Philo_%d is sleeping\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
+	usleep(data->tts * 1000);
+}
+
+void	start_thinking(int current_ph, t_datas *data)
+{
+	printf("%ld Philo_%d is thinking\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
+}
+
 int	tamagochi_philo(int thread_nb, t_datas *data)
 {
  	if (take_forks(thread_nb, data))
@@ -70,7 +81,7 @@ int	tamagochi_philo(int thread_nb, t_datas *data)
 	start_eating(thread_nb, data);
 	if (drop_forks(thread_nb, data))
 		return (ERROR);
-/*	start_sleeping;
-	start_thinking; */
+	start_sleeping(thread_nb, data);
+	start_thinking(thread_nb, data);
 	return(SUCCESS);
 }
