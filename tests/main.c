@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:48:05 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/13 20:28:07 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/27 14:13:19 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	*routine(void *nb)
 int	main(void)
 {
 	int i;
-	pthread_t thread[5];
+	pthread_t thread[100];
 
-	for(i = 0; i < 5; i++)
+	for(i = 0; i < 100; i++)
 	{
 		int *nb = malloc(sizeof(int));
 		*nb = i;
 		if (pthread_create(thread + i, NULL, &routine, nb))
 			return (ERROR);
 	}
-	for(i = 0; i < 5; i++)
+	for(i = 0; i < 100; i++)
 	{
 		pthread_join(thread[i], NULL);
 	}
