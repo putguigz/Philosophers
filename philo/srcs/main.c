@@ -12,6 +12,27 @@
 
 #include "philo.h"
 
+void	destroy_all_mutex(t_datas *data)
+{
+	int		i;
+	t_philo	*philo;
+
+	i = 0;
+	philo = data->philo;
+	pthread_mutex_destroy(&data->death_mutex);
+	while (i < data->nb)
+	{
+		pthread_mutex_destroy(&philo[i].mutex);
+		i++;
+	}
+}
+
+void	clean_before_exit(t_datas *data)
+{
+	destroy_all_mutex(data);
+	free(data->philo);
+}
+
 void	init_datas_struct(t_datas *data)
 {
 	data->nb = 0;
@@ -37,12 +58,15 @@ int	main(int ac, char **av)
 	if (register_philo_input(av, &data))
 	{
 		ft_putstr_fd("Wrong input\n", 2);
+		clean_before_exit(&data);
 		return (0);
 	}
 	if (start_vandevilling(&data))
 	{
 		ft_putstr_fd("Error\n", 2);
+		clean_before_exit(&data);
 		return (0);
 	}
+	clean_before_exit(&data);
 	return (0);
 }
