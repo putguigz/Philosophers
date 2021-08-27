@@ -23,6 +23,7 @@
 # define INT_MAX 2147483647
 # define ERROR -1
 # define SUCCESS 0
+# define DEATH 1
 
 typedef struct s_datas
 {
@@ -32,9 +33,11 @@ typedef struct s_datas
 	int				tts;
 	int				meals_flag;
 	int				meals;
+	int				death;
 	struct timeval	time;
 	struct s_philo	*philo;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	death_mutex;
 }	t_datas;
 
 typedef struct s_philo
