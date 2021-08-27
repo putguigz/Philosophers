@@ -36,7 +36,6 @@ typedef struct s_datas
 	int				death;
 	struct timeval	time;
 	struct s_philo	*philo;
-	pthread_mutex_t	mutex;
 	pthread_mutex_t	death_mutex;
 }	t_datas;
 
