@@ -23,6 +23,20 @@ void	*routine(void *elem)
 	return (elem);
 }
 
+pthread_t *create_thread_tab_init_mutex(t_datas *data)
+{
+	pthread_t *thread;
+
+	thread = (pthread_t *)malloc(sizeof(pthread_t) * data->nb);
+	if (pthread_mutex_init(&data->mutex, NULL) || \
+	pthread_mutex_init(&data->death_mutex, NULL))
+	{
+		free(thread);
+		thread = NULL;
+	}
+	return (thread);
+}
+
 int	launch_threads(t_datas *data)
 {
 	int i;
@@ -30,8 +44,8 @@ int	launch_threads(t_datas *data)
 	pthread_t *thread;
 
 	i = 0;
-	thread = (pthread_t *)malloc(sizeof(pthread_t) * data->nb);
-	if (!thread || pthread_mutex_init(&data->mutex, NULL))
+	thread = create_thread_tab_init_mutex(data);
+	if (!thread)
 		ret_status = ERROR;
 	while (!ret_status && i < data->nb)
 	{

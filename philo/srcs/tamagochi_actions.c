@@ -72,10 +72,23 @@ void	start_sleeping(int current_ph, t_datas *data)
 void	start_thinking(int current_ph, t_datas *data)
 {
 	printf("%ld Philo_%d is thinking\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
+	if (current_ph == 1)
+	{
+		pthread_mutex_lock(&data->death_mutex);
+		data->death = DEATH;
+		pthread_mutex_unlock(&data->death_mutex);
+	}
 }
 
 int	tamagochi_philo(int thread_nb, t_datas *data)
 {
+	pthread_mutex_lock(&data->death_mutex);
+	if (data->death == DEATH)
+	{
+		pthread_mutex_unlock(&data->death_mutex);
+		return (DEATH);
+	}
+	pthread_mutex_unlock(&data->death_mutex);
  	if (take_forks(thread_nb, data))
 		return (ERROR);
 	start_eating(thread_nb, data);

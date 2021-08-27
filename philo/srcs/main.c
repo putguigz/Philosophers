@@ -20,6 +20,7 @@ void	init_datas_struct(t_datas *data)
 	data->tts = 0;
 	data->meals_flag = 0;
 	data->meals = 0;
+	data->death = 0;
 	data->philo = NULL;
 }
 
