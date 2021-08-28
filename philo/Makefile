@@ -14,7 +14,7 @@ NAME= philo
 
 CC= clang
 
-CFLAGS= -Wall -Wextra -Werror -g3 -fsanitize=thread
+CFLAGS= -Wall -Wextra -Werror -g3
 
 SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c \
 	threads.c tamagochi_actions.c)
@@ -29,7 +29,7 @@ INCLUDE= includes/
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lpthread 
 
 clean:
 	rm -rf $(OBJS)

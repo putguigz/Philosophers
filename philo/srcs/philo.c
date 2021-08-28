@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 16:54:29 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/29 00:55:32 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,7 @@ int	start_vandevilling(t_datas *data)
 	if (!data->philo)
 		return (ERROR);
 	if (gettimeofday(&(data->time), NULL))
-	{
-		free(data->philo);
 		return (ERROR);
-	}
 	ret_status = launch_threads(data);
-	free(data->philo);
 	return (ret_status);
 }
