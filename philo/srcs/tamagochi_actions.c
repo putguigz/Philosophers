@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 10:47:11 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 17:09:20 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 18:50:56 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,18 @@ int	take_forks(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
-	if (plato_died(data))
-		return (DEATH);
-	printf("%ld Philo_%d has taken a fork\n", time, current_ph);
+	pthread_mutex_lock(&data->death_mutex);
+	if (!data->death)
+		printf("%ld Philo_%d has taken a fork\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	ph[left].fork = 0;
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
-	printf("%ld Philo_%d has taken a fork\n", time, current_ph);
+	pthread_mutex_lock(&data->death_mutex);
+	if (!data->death)
+		printf("%ld Philo_%d has taken a fork\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	return (SUCCESS);
 }
 
@@ -75,12 +79,11 @@ int	kill_philo(int current_ph, t_datas *data)
 
 	pthread_mutex_lock(&data->death_mutex);
 	data->death = DEATH;
-	pthread_mutex_unlock(&data->death_mutex);
-	usleep(8);
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
 	printf("%ld Philo_%d died\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	return (SUCCESS);
 }
 
@@ -108,7 +111,10 @@ int	start_eating(int current_ph, t_datas *data)
 	data->philo[current_ph - 1].last_dinner = time;
 	if (last_meal > data->ttd)
 		return (kill_philo(current_ph, data));
-	printf("%ld Philo_%d is eating\n", time, current_ph);
+	pthread_mutex_lock(&data->death_mutex);
+	if (!data->death)
+		printf("%ld Philo_%d is eating\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	my_usleep(data->tte);
 	//RAJOUTER VERIFICATION DU NOMBRE DE REPAS ICI
 	return (SUCCESS);
@@ -121,7 +127,10 @@ int	start_sleeping(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
-	printf("%ld Philo_%d is sleeping\n", time, current_ph);
+	pthread_mutex_lock(&data->death_mutex);
+	if (!data->death)
+		printf("%ld Philo_%d is sleeping\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	my_usleep(data->tts);
 	return (SUCCESS);
 }
@@ -133,7 +142,10 @@ int	start_thinking(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
-	printf("%ld Philo_%d is thinking\n", time, current_ph);
+	pthread_mutex_lock(&data->death_mutex);
+	if (!data->death)
+		printf("%ld Philo_%d is thinking\n", time, current_ph);
+	pthread_mutex_unlock(&data->death_mutex);
 	return (SUCCESS);
 }
 
