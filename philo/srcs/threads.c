@@ -18,8 +18,9 @@ void	*routine(void *elem)
 
 	philo = (t_philo *)elem;
 	if (philo->nb % 2 == 0)
-		usleep(1000);
+		my_usleep(10);
 	while (!tamagochi_philo(philo->nb, philo->data));
+	 //SI ERROR OU DEATH ALORS BOUCLE WHILE STOP
 	return (elem);
 }
 
