@@ -34,53 +34,52 @@ int	drop_forks(int current_ph, t_datas *data)
 	left = set_left_philo(&index, current_ph, data);
 	ph[index].fork = 1;
 	ph[left].fork = 1;
-	pthread_mutex_unlock(&ph[index].mutex); //CONTROLLER MUTEX
-	pthread_mutex_unlock(&ph[left].mutex); //CONTROLLER MUTEX
+	pthread_mutex_unlock(&ph[index].mutex);
+	pthread_mutex_unlock(&ph[left].mutex);
 	return (SUCCESS);
 }
 
 int	take_forks(int current_ph, t_datas *data)
 {
-	int left;
-	int	index;
-	t_philo *ph;
+	long	time;
+	int		left;
+	int		index;
+	t_philo	*ph;
 
 	ph = data->philo;
 	left = set_left_philo(&index, current_ph, data);
-	pthread_mutex_lock(&ph[index].mutex); //CONTROLLER MUTEX
-	pthread_mutex_lock(&ph[left].mutex); //CONTROLLER MUTEX
+	if (pthread_mutex_lock(&ph[index].mutex))
+		return (ERROR);
+	if (pthread_mutex_lock(&ph[left].mutex))
+		return (ERROR);
 	ph[index].fork = 0;
-	printf("%ld Philo_%d has taken a fork\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	printf("%ld Philo_%d has taken a fork\n", time, current_ph);
 	ph[left].fork = 0;
-	printf("%ld Philo_%d has taken a fork\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	printf("%ld Philo_%d has taken a fork\n", time, current_ph);
 	return (SUCCESS);
 }
 
-void	start_eating(int current_ph, t_datas *data)
+int	kill_philo(int current_ph, t_datas *data)
 {
-	printf("%ld Philo_%d is eating\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
-	usleep(data->tte * 1000);
-	data->philo[current_ph - 1].last_dinner = get_time_elapsed(data); //CONTROLLER RETOUR GET_TIME
+	long time;
+
+	pthread_mutex_lock(&data->death_mutex);
+	data->death = DEATH;
+	pthread_mutex_unlock(&data->death_mutex);
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	printf("%ld Philo_%d died\n", time, current_ph);
+	return (SUCCESS);
 }
 
-void	start_sleeping(int current_ph, t_datas *data)
-{
-	printf("%ld Philo_%d is sleeping\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
-	usleep(data->tts * 1000);
-}
-
-void	start_thinking(int current_ph, t_datas *data)
-{
-	printf("%ld Philo_%d is thinking\n", get_time_elapsed(data), current_ph); //CONTROLLER RETOUR GET_TIME
-	if (current_ph == 1)
-	{
-		pthread_mutex_lock(&data->death_mutex);
-		data->death = DEATH;
-		pthread_mutex_unlock(&data->death_mutex);
-	}
-}
-
-int	tamagochi_philo(int thread_nb, t_datas *data)
+int	plato_died(t_datas *data)
 {
 	pthread_mutex_lock(&data->death_mutex);
 	if (data->death == DEATH)
@@ -89,12 +88,74 @@ int	tamagochi_philo(int thread_nb, t_datas *data)
 		return (DEATH);
 	}
 	pthread_mutex_unlock(&data->death_mutex);
+	return (ALIVE);
+}
+
+int	start_eating(int current_ph, t_datas *data)
+{
+	long	time;
+	long	last_meal;
+
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	last_meal = time - data->philo[current_ph - 1].last_dinner;
+	if (last_meal > data->ttd)
+		return (kill_philo(current_ph, data));
+	printf("%ld Philo_%d is eating\n", time, current_ph);
+	my_usleep(data->tte);
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	data->philo[current_ph - 1].last_dinner = time;
+	//RAJOUTER VERIFICATION DU NOMBRE DE REPAS ICI
+	return (SUCCESS);
+}
+
+int	start_sleeping(int current_ph, t_datas *data)
+{
+	long time;
+
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	printf("%ld Philo_%d is sleeping\n", time, current_ph);
+	my_usleep(data->tts);
+	return (SUCCESS);
+}
+
+int	start_thinking(int current_ph, t_datas *data)
+{
+	long time;
+
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	printf("%ld Philo_%d is thinking\n", time, current_ph);
+	return (SUCCESS);
+}
+
+int	tamagochi_philo(int thread_nb, t_datas *data)
+{
+	if (plato_died(data))
+		return (DEATH);
  	if (take_forks(thread_nb, data))
 		return (ERROR);
-	start_eating(thread_nb, data);
+	if (plato_died(data))
+		return (DEATH);	
+	if (start_eating(thread_nb, data))
+		return (ERROR);
 	if (drop_forks(thread_nb, data))
 		return (ERROR);
-	start_sleeping(thread_nb, data);
-	start_thinking(thread_nb, data);
+	if (plato_died(data))
+		return (DEATH);
+	if (start_sleeping(thread_nb, data))
+		return (ERROR);
+	if (plato_died(data))
+		return (DEATH);
+	if (start_thinking(thread_nb, data))
+		return (ERROR);
+	if (plato_died(data))
+		return (DEATH);
 	return(SUCCESS);
 }
