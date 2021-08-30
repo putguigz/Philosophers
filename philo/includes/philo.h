@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 19:22:46 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 22:31:53 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	int				fork;
 	pthread_mutex_t	mutex;
 	long			last_dinner;
+	int				meal;
 	struct s_datas	*data;
 }	t_philo;
 

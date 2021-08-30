@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/29 00:55:32 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 22:31:48 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	set_fork_to_usable(t_philo *philo, int elems, t_datas *data)
 			return (ERROR);
 		philo[i].data = data;
 		philo[i].last_dinner = 0;
+		philo[i].meal = 0;
 		i++;
 	}
 	return (SUCCESS);
