@@ -20,7 +20,6 @@ void	*routine(void *elem)
 	if (philo->nb % 2 == 0)
 		my_usleep(10);
 	while (!tamagochi_philo(philo->nb, philo->data));
-	 //SI ERROR OU DEATH ALORS BOUCLE WHILE STOP
 	return (elem);
 }
 

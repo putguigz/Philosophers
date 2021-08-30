@@ -32,7 +32,7 @@ void	my_usleep(int time_needed)
 	starting_time = usleep_chronometer();
 	while (elapsed_time < time_needed)
 	{
-		usleep(time_needed / 10);
+		usleep(10);
 		elapsed_time = usleep_chronometer() - starting_time;
 	}
 }
