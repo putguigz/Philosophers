@@ -24,6 +24,7 @@
 # define ERROR -1
 # define SUCCESS 0
 # define DEATH 1
+# define ALIVE 0
 
 typedef struct s_datas
 {
@@ -53,6 +54,7 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
+void	my_usleep(int time);
 
 //MULTI-THREADING
 int		launch_threads(t_datas *data);
