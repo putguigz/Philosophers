@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 10:47:11 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 22:58:20 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 23:04:33 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	are_you_guys_done(t_philo *philo)
 			count++;
 		i++;
 	}
-	if (count == data->nb)
+	if (count == data->nb - 1)
 	{
 		pthread_mutex_lock(&data->death_mutex);
 		data->death = DEATH;
@@ -150,11 +150,11 @@ int	start_eating(int current_ph, t_datas *data)
 	if (status_printer(current_ph, "is eating", data))
 		return (ERROR);
 	my_usleep(data->tte, data);
-/* 	if (data->meals_flag)
+	if (data->meals_flag)
 	{
 		data->philo[current_ph].meal++;
 		are_you_guys_done(data->philo);
-	} */
+	}
 	//RAJOUTER VERIFICATION DU NOMBRE DE REPAS ICI
 	return (SUCCESS);
 }
