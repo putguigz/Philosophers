@@ -12,6 +12,8 @@
 
 #include "philo.h"
 
+int	plato_died(t_datas *data);
+
 int	set_left_philo(int *index, int current_ph, t_datas *data)
 {
 	int left;
@@ -56,6 +58,8 @@ int	take_forks(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
+	if (plato_died(data))
+		return (DEATH);
 	printf("%ld Philo_%d has taken a fork\n", time, current_ph);
 	ph[left].fork = 0;
 	time = get_time_elapsed(data);
@@ -72,6 +76,7 @@ int	kill_philo(int current_ph, t_datas *data)
 	pthread_mutex_lock(&data->death_mutex);
 	data->death = DEATH;
 	pthread_mutex_unlock(&data->death_mutex);
+	usleep(8);
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
@@ -100,14 +105,11 @@ int	start_eating(int current_ph, t_datas *data)
 	if (time == ERROR)
 		return (ERROR);
 	last_meal = time - data->philo[current_ph - 1].last_dinner;
+	data->philo[current_ph - 1].last_dinner = time;
 	if (last_meal > data->ttd)
 		return (kill_philo(current_ph, data));
 	printf("%ld Philo_%d is eating\n", time, current_ph);
 	my_usleep(data->tte);
-	time = get_time_elapsed(data);
-	if (time == ERROR)
-		return (ERROR);
-	data->philo[current_ph - 1].last_dinner = time;
 	//RAJOUTER VERIFICATION DU NOMBRE DE REPAS ICI
 	return (SUCCESS);
 }
@@ -137,8 +139,6 @@ int	start_thinking(int current_ph, t_datas *data)
 
 int	tamagochi_philo(int thread_nb, t_datas *data)
 {
-	if (plato_died(data))
-		return (DEATH);
  	if (take_forks(thread_nb, data))
 		return (ERROR);
 	if (plato_died(data))
