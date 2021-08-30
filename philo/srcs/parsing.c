@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 10:21:48 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 09:54:01 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 23:36:45 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	input_conformity(char *str)
 			return (ERROR);
 		i++;
 	}
-	if (ft_atoi(str) > INT_MAX || ft_atoi(str) < 0)
+	if (ft_atoi(str) > INT_MAX || ft_atoi(str) <= 0)
 		return (ERROR);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 10:47:11 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 23:04:33 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 23:39:34 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	start_eating(int current_ph, t_datas *data)
 		return (ERROR);
 	last_meal = time - data->philo[current_ph - 1].last_dinner;
 	data->philo[current_ph - 1].last_dinner = time;
-	if (last_meal > data->ttd)
+	if (last_meal >= data->ttd)
 		return (kill_philo(current_ph, data));
 	if (status_printer(current_ph, "is eating", data))
 		return (ERROR);
