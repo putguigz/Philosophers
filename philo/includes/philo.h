@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/19 16:54:08 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 19:22:46 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
-void	my_usleep(int time);
+void	my_usleep(int time, t_datas *data);
 
 //MULTI-THREADING
 int		launch_threads(t_datas *data);

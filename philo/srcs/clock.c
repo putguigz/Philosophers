@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 19:07:19 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 18:53:35 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/08/30 19:33:32 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ long	usleep_chronometer(void)
 	return (elapsed);
 }
 
-void	my_usleep(int time_needed)
+void	my_usleep(int time_needed, t_datas *data)
 {
 	long	starting_time;
 	long	elapsed_time;
 
 	elapsed_time = 0;
-	starting_time = usleep_chronometer();
+	starting_time = get_time_elapsed(data);
 	while (elapsed_time < time_needed)
 	{
-		usleep(10);
-		elapsed_time = usleep_chronometer() - starting_time;
+		usleep(300);
+		elapsed_time = get_time_elapsed(data) - starting_time;
 	}
 }
 
