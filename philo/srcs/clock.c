@@ -23,7 +23,7 @@ long	usleep_chronometer(void)
 	return (elapsed);
 }
 
-void	my_usleep(int time_needed, t_datas *data)
+void	my_usleep(int current_ph, int time_needed, t_datas *data)
 {
 	long	starting_time;
 	long	elapsed_time;
@@ -33,6 +33,8 @@ void	my_usleep(int time_needed, t_datas *data)
 	while (elapsed_time < time_needed)
 	{
 		usleep(300);
+		if (plato_died(current_ph, data))
+			return ;
 		elapsed_time = get_time_elapsed(data) - starting_time;
 	}
 }
