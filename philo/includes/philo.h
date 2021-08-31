@@ -55,10 +55,11 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
-void	my_usleep(int time, t_datas *data);
+void	my_usleep(int current_ph, int time, t_datas *data);
 
 //MULTI-THREADING
 int		launch_threads(t_datas *data);
+int		plato_died(int current_ph, t_datas *data);
 
 //TAMAGOCHI_ACTIONS
 int		tamagochi_philo(int thread_nb, t_datas *data);

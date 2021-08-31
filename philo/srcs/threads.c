@@ -18,7 +18,7 @@ void	*routine(void *elem)
 
 	philo = (t_philo *)elem;
 	if (philo->nb % 2 == 0)
-		my_usleep(10, philo->data);
+		my_usleep(philo->nb, 10, philo->data);
 	while (!tamagochi_philo(philo->nb, philo->data));
 	return (elem);
 }

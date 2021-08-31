@@ -12,8 +12,6 @@
 
 #include "philo.h"
 
-int	plato_died(t_datas *data);
-
 int	status_printer(int current_ph, char *str, t_datas *data)
 {
 	long time;
@@ -38,8 +36,10 @@ int	set_left_philo(int *index, int current_ph, t_datas *data)
 	int left;
 
 	*index = current_ph - 1;
-	if (*index == 0)
+	if (*index == 0 && data->nb != 1)
 		left = data->nb - 1;
+	else if (*index == 0 && data->nb == 1)
+		left = -1;
 	else
 		left = *index - 1;
 	return (left);
@@ -70,14 +70,19 @@ int	take_forks(int current_ph, t_datas *data)
 	left = set_left_philo(&index, current_ph, data);
 	if (pthread_mutex_lock(&ph[index].mutex))
 		return (ERROR);
-	if (pthread_mutex_lock(&ph[left].mutex))
-		return (ERROR);
 	ph[index].fork = 0;
 	if (status_printer(current_ph, "has taken a fork", data))
 		return (ERROR);
-	ph[left].fork = 0;
-	if (status_printer(current_ph, "has taken a fork", data))
-		return (ERROR);
+	if (left != -1)
+	{
+		if (pthread_mutex_lock(&ph[left].mutex))
+			return (ERROR);
+		ph[left].fork = 0;
+		if (status_printer(current_ph, "has taken a fork", data))
+			return (ERROR);
+	}
+	else
+		my_usleep(current_ph, data->ttd, data);
 	return (SUCCESS);
 }
 
@@ -100,8 +105,17 @@ int	kill_philo(int current_ph, t_datas *data)
 	return (SUCCESS);
 }
 
-int	plato_died(t_datas *data)
+int	plato_died(int current_ph, t_datas *data)
 {
+	long last_meal;
+	long time;
+
+	time = get_time_elapsed(data);
+	if (time == ERROR)
+		return (ERROR);
+	last_meal = time - data->philo[current_ph - 1].last_dinner;
+	if (last_meal >= data->ttd)
+		kill_philo(current_ph, data);
 	pthread_mutex_lock(&data->death_mutex);
 	if (data->death == DEATH)
 	{
@@ -127,7 +141,7 @@ void	are_you_guys_done(t_philo *philo)
 			count++;
 		i++;
 	}
-	if (count == data->nb - 1)
+	if (count == data->nb)
 	{
 		pthread_mutex_lock(&data->death_mutex);
 		data->death = DEATH;
@@ -138,24 +152,19 @@ void	are_you_guys_done(t_philo *philo)
 int	start_eating(int current_ph, t_datas *data)
 {
 	long	time;
-	long	last_meal;
 
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
-	last_meal = time - data->philo[current_ph - 1].last_dinner;
 	data->philo[current_ph - 1].last_dinner = time;
-	if (last_meal >= data->ttd)
-		return (kill_philo(current_ph, data));
 	if (status_printer(current_ph, "is eating", data))
 		return (ERROR);
-	my_usleep(data->tte, data);
+	my_usleep(current_ph, data->tte, data);
 	if (data->meals_flag)
 	{
-		data->philo[current_ph].meal++;
+		data->philo[current_ph - 1].meal++;
 		are_you_guys_done(data->philo);
 	}
-	//RAJOUTER VERIFICATION DU NOMBRE DE REPAS ICI
 	return (SUCCESS);
 }
 
@@ -163,7 +172,7 @@ int	start_sleeping(int current_ph, t_datas *data)
 {
 	if (status_printer(current_ph, "is sleeping", data))
 		return (ERROR);
-	my_usleep(data->tts, data);
+	my_usleep(current_ph, data->tts, data);
 	return (SUCCESS);
 }
 
@@ -178,21 +187,15 @@ int	tamagochi_philo(int thread_nb, t_datas *data)
 {
  	if (take_forks(thread_nb, data))
 		return (ERROR);
-	if (plato_died(data))
-		return (DEATH);	
 	if (start_eating(thread_nb, data))
 		return (ERROR);
 	if (drop_forks(thread_nb, data))
 		return (ERROR);
-	if (plato_died(data))
-		return (DEATH);
 	if (start_sleeping(thread_nb, data))
 		return (ERROR);
-	if (plato_died(data))
-		return (DEATH);
 	if (start_thinking(thread_nb, data))
 		return (ERROR);
-	if (plato_died(data))
+	if (plato_died(thread_nb, data))
 		return (DEATH);
 	return(SUCCESS);
 }
