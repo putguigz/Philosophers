@@ -14,13 +14,22 @@
 
 void	*routine(void *elem)
 {
+	int		ret;
 	t_philo *philo;
 
 	philo = (t_philo *)elem;
 	if (philo->nb % 2 == 0)
 		my_usleep(philo->nb, 10, philo->data);
-	while (!tamagochi_philo(philo->nb, philo->data));
-	return (elem);
+	ret = tamagochi_philo(philo->nb, philo->data);
+	while (!ret)
+		ret = tamagochi_philo(philo->nb, philo->data);
+	if (ret)
+	{
+		pthread_mutex_lock(&philo->data->error_mutex);
+		philo->data->error = ERROR;
+		pthread_mutex_unlock(&philo->data->error_mutex);
+	}
+	return ((void *) &philo->data->error);
 }
 
 pthread_t *create_thread_tab_init_mutex(t_datas *data)
@@ -33,6 +42,11 @@ pthread_t *create_thread_tab_init_mutex(t_datas *data)
 		free(thread);
 		thread = NULL;
 	}
+	if (pthread_mutex_init(&data->error_mutex, NULL))
+	{
+		free(thread);
+		thread = NULL;
+	}
 	return (thread);
 }
 
@@ -41,23 +55,22 @@ int	launch_threads(t_datas *data)
 	int i;
 	static int ret_status = SUCCESS;
 	pthread_t *thread;
+	int			*ret;
 
 	i = 0;
 	thread = create_thread_tab_init_mutex(data);
 	if (!thread)
-		ret_status = ERROR;
+		return (ERROR);
 	while (!ret_status && i < data->nb)
 	{
-		if (pthread_create(thread + i, NULL, &routine, data->philo + i)) //CONTROLER RETOUR DE &ROUTINE
+		if (pthread_create(thread + i, NULL, &routine, data->philo + i))
 			ret_status = ERROR;
 		i++;
 	}
-	i = 0;
-	while (!ret_status && i < data->nb)
+	while (--i >= 0)
 	{
-		if (pthread_join(thread[i], NULL))
+		if (pthread_join(thread[i], (void **) &ret) || *ret == ERROR)
 			ret_status = ERROR;
-		i++;
 	}
 	if (thread)
 		free(thread);

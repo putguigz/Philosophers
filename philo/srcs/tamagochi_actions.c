@@ -68,7 +68,7 @@ int	take_forks(int current_ph, t_datas *data)
 
 	ph = data->philo;
 	left = set_left_philo(&index, current_ph, data);
-	if (pthread_mutex_lock(&ph[index].mutex))
+	if (!pthread_mutex_lock(&ph[index].mutex))
 		return (ERROR);
 	ph[index].fork = 0;
 	if (status_printer(current_ph, "has taken a fork", data))
