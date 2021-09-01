@@ -23,7 +23,7 @@ void	*routine(void *elem)
 	ret = tamagochi_philo(philo->nb, philo->data);
 	while (!ret)
 		ret = tamagochi_philo(philo->nb, philo->data);
-	if (ret)
+	if (ret == ERROR)
 	{
 		pthread_mutex_lock(&philo->data->error_mutex);
 		philo->data->error = ERROR;
