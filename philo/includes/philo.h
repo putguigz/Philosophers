@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 22:31:53 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/01 15:12:53 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_datas
 	struct timeval	time;
 	struct s_philo	*philo;
 	pthread_mutex_t	death_mutex;
-	pthread_mutex_t error_mutex;
+	pthread_mutex_t	error_mutex;
 }	t_datas;
 
 typedef struct s_philo
@@ -57,7 +57,7 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
-void	my_usleep(int current_ph, int time, t_datas *data);
+int		my_usleep(int current_ph, int time, t_datas *data);
 
 //MULTI-THREADING
 int		launch_threads(t_datas *data);
@@ -65,6 +65,10 @@ int		plato_died(int current_ph, t_datas *data);
 
 //TAMAGOCHI_ACTIONS
 int		tamagochi_philo(int thread_nb, t_datas *data);
+int		take_forks(int current_ph, t_datas *data);
+int		start_eating(int current_ph, t_datas *data);
+int		drop_forks(int current_ph, t_datas *data);
+int		status_printer(int current_ph, char *str, t_datas *data);
 
 //UTILS
 void	ft_putstr_fd(char *s, int fd);
