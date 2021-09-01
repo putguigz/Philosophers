@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:29:34 by gpetit            #+#    #+#             */
-/*   Updated: 2021/08/30 19:23:17 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/01 17:13:51 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 void	*routine(void *elem)
 {
 	int		ret;
-	t_philo *philo;
+	int		ret_1;
+	t_philo	*philo;
 
 	philo = (t_philo *)elem;
 	if (philo->nb % 2 == 0)
-		my_usleep(philo->nb, 10, philo->data);
+		ret_1 = my_usleep(philo->nb, 10, philo->data);
 	ret = tamagochi_philo(philo->nb, philo->data);
 	while (!ret)
 		ret = tamagochi_philo(philo->nb, philo->data);
-	if (ret == ERROR)
+	if (ret == ERROR || ret_1 == ERROR)
 	{
 		pthread_mutex_lock(&philo->data->error_mutex);
 		philo->data->error = ERROR;
@@ -32,9 +33,9 @@ void	*routine(void *elem)
 	return ((void *) &philo->data->error);
 }
 
-pthread_t *create_thread_tab_init_mutex(t_datas *data)
+pthread_t	*create_thread_tab_init_mutex(t_datas *data)
 {
-	pthread_t *thread;
+	pthread_t	*thread;
 
 	thread = (pthread_t *)malloc(sizeof(pthread_t) * data->nb);
 	if (pthread_mutex_init(&data->death_mutex, NULL))
@@ -52,9 +53,9 @@ pthread_t *create_thread_tab_init_mutex(t_datas *data)
 
 int	launch_threads(t_datas *data)
 {
-	int i;
-	static int ret_status = SUCCESS;
-	pthread_t *thread;
+	int			i;
+	static int	ret_status = SUCCESS;
+	pthread_t	*thread;
 	int			*ret;
 
 	i = 0;
