@@ -19,6 +19,7 @@ void	destroy_all_mutex(t_datas *data)
 
 	i = 0;
 	philo = data->philo;
+	pthread_mutex_destroy(&data->error_mutex);
 	pthread_mutex_destroy(&data->death_mutex);
 	while (i < data->nb)
 	{
