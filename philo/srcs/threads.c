@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:29:34 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/01 17:13:51 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/01 17:18:10 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*routine(void *elem)
 	t_philo	*philo;
 
 	philo = (t_philo *)elem;
+	ret_1 = SUCCESS;
 	if (philo->nb % 2 == 0)
 		ret_1 = my_usleep(philo->nb, 10, philo->data);
 	ret = tamagochi_philo(philo->nb, philo->data);
