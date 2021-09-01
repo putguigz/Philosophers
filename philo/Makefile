@@ -14,7 +14,7 @@ NAME= philo
 
 CC= clang
 
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror -g3
 
 SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c \
 	threads.c tamagochi_actions.c)

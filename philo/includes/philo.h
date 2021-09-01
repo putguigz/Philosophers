@@ -35,9 +35,11 @@ typedef struct s_datas
 	int				meals_flag;
 	int				meals;
 	int				death;
+	int				error;
 	struct timeval	time;
 	struct s_philo	*philo;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t error_mutex;
 }	t_datas;
 
 typedef struct s_philo
