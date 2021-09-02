@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 17:33:39 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 14:46:21 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:23:55 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	destroy_all_mutex(t_datas *data)
 	while (i < data->nb)
 	{
 		pthread_mutex_destroy(&philo[i].mutex);
+		pthread_mutex_destroy(&philo[i].dinner_mutex);
+		pthread_mutex_destroy(&philo[i].meals_mutex);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 13:37:02 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 14:46:12 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:23:09 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int	set_fork_to_usable(t_philo *philo, int elems, t_datas *data)
 		philo[i].nb = i + 1;
 		philo[i].fork = 1;
 		if (pthread_mutex_init(&philo[i].mutex, NULL))
+			return (ERROR);
+		if (pthread_mutex_init(&philo[i].dinner_mutex, NULL))
+			return (ERROR);
+		if (pthread_mutex_init(&philo[i].meals_mutex, NULL))
 			return (ERROR);
 		philo[i].data = data;
 		philo[i].last_dinner = 0;

@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:27:03 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 15:55:02 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:29:22 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ int	did_anyone_die(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
+	if (pthread_mutex_lock(&data->philo[current_ph - 1].dinner_mutex))
+		return (ERROR);
 	last_meal = time - data->philo[current_ph - 1].last_dinner;
+	if (pthread_mutex_unlock(&data->philo[current_ph - 1].dinner_mutex))
+		return (ERROR);
 	if (last_meal >= data->ttd)
 		if (kill_philo(current_ph, data))
 			return (ERROR);
