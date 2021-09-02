@@ -6,11 +6,27 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 15:29:34 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/01 17:18:10 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 15:21:30 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	*monitoring(void *elem)
+{
+	int		ret;
+	t_datas	*data;
+
+	data = (t_datas *)elem;
+	ret = monitor_everyone(data);
+	if (ret == ERROR)
+	{
+		pthread_mutex_lock(&data->error_mutex);
+		data->error = ERROR;
+		pthread_mutex_unlock(&data->error_mutex);
+	}
+	return ((void *) &data->error);
+}
 
 void	*routine(void *elem)
 {
@@ -21,7 +37,7 @@ void	*routine(void *elem)
 	philo = (t_philo *)elem;
 	ret_1 = SUCCESS;
 	if (philo->nb % 2 == 0)
-		ret_1 = my_usleep(philo->nb, 10, philo->data);
+		ret_1 = my_usleep(10, philo->data);
 	ret = tamagochi_philo(philo->nb, philo->data);
 	while (!ret)
 		ret = tamagochi_philo(philo->nb, philo->data);
@@ -57,6 +73,7 @@ int	launch_threads(t_datas *data)
 	int			i;
 	static int	ret_status = SUCCESS;
 	pthread_t	*thread;
+	pthread_t	monitoring_thread;
 	int			*ret;
 
 	i = 0;
@@ -69,11 +86,15 @@ int	launch_threads(t_datas *data)
 			ret_status = ERROR;
 		i++;
 	}
+	if (pthread_create(&monitoring_thread, NULL, &monitoring, data))
+			ret_status = ERROR;
 	while (--i >= 0)
 	{
 		if (pthread_join(thread[i], (void **) &ret) || *ret == ERROR)
 			ret_status = ERROR;
 	}
+	if (pthread_join(monitoring_thread, NULL))
+		ret_status = ERROR;
 	if (thread)
 		free(thread);
 	return (ret_status);

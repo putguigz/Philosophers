@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 15:03:00 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/01 17:08:38 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 15:57:00 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,14 @@ int	drop_forks(int current_ph, t_datas *data)
 	ph = data->philo;
 	left = set_left_philo(&index, current_ph, data);
 	ph[index].fork = 1;
-	ph[left].fork = 1;
 	if (pthread_mutex_unlock(&ph[index].mutex))
 		return (ERROR);
-	if (left != -1 && pthread_mutex_unlock(&ph[left].mutex))
-		return (ERROR);
+	if (left != -1)
+	{	
+		ph[left].fork = 1;
+		if (pthread_mutex_unlock(&ph[left].mutex))
+			return (ERROR);
+	}
 	return (SUCCESS);
 }
 
@@ -79,7 +82,7 @@ int	start_eating(int current_ph, t_datas *data)
 	data->philo[current_ph - 1].last_dinner = time;
 	if (status_printer(current_ph, "is eating", data))
 		return (ERROR);
-	if (my_usleep(current_ph, data->tte, data) == ERROR)
+	if (my_usleep(data->tte, data) == ERROR)
 		return (ERROR);
 	if (data->meals_flag)
 	{
@@ -112,7 +115,7 @@ int	take_forks(int current_ph, t_datas *data)
 			return (ERROR);
 	}
 	else
-		if (my_usleep(current_ph, data->ttd, data) == ERROR)
+		if (my_usleep(data->ttd, data) == ERROR)
 			return (ERROR);
 	return (SUCCESS);
 }
