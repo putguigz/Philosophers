@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/07 10:22:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 15:03:12 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:25:34 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ void	ft_putstr_fd(char *s, int fd)
 		ft_putchar_fd(s[i], fd);
 		i++;
 	}
+}
+
+int	set_left_philo(int *index, int current_ph, t_datas *data)
+{
+	int	left;
+
+	*index = current_ph - 1;
+	if (*index == 0 && data->nb != 1)
+		left = data->nb - 1;
+	else if (*index == 0 && data->nb == 1)
+		left = -1;
+	else
+		left = *index - 1;
+	return (left);
 }

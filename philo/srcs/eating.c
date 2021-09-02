@@ -6,24 +6,21 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 15:03:00 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 15:57:00 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:29:00 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	set_left_philo(int *index, int current_ph, t_datas *data)
+int	increase_count(int *count, t_philo philo, t_datas *data)
 {
-	int	left;
-
-	*index = current_ph - 1;
-	if (*index == 0 && data->nb != 1)
-		left = data->nb - 1;
-	else if (*index == 0 && data->nb == 1)
-		left = -1;
-	else
-		left = *index - 1;
-	return (left);
+	if (pthread_mutex_lock(&philo.meals_mutex))
+		return (ERROR);
+	if (philo.meal >= data->meals)
+		(*count)++;
+	if (pthread_mutex_unlock(&philo.meals_mutex))
+		return (ERROR);
+	return (SUCCESS);
 }
 
 int	are_you_guys_done(t_philo *philo)
@@ -37,8 +34,8 @@ int	are_you_guys_done(t_philo *philo)
 	data = philo->data;
 	while (i < data->nb)
 	{
-		if (philo[i].meal >= data->meals)
-			count++;
+		if (increase_count(&count, philo[i], data))
+			return (ERROR);
 		i++;
 	}
 	if (count == data->nb)
@@ -79,14 +76,22 @@ int	start_eating(int current_ph, t_datas *data)
 	time = get_time_elapsed(data);
 	if (time == ERROR)
 		return (ERROR);
+	if (pthread_mutex_lock(&data->philo[current_ph - 1].dinner_mutex))
+		return (ERROR);
 	data->philo[current_ph - 1].last_dinner = time;
+	if (pthread_mutex_unlock(&data->philo[current_ph - 1].dinner_mutex))
+		return (ERROR);
 	if (status_printer(current_ph, "is eating", data))
 		return (ERROR);
 	if (my_usleep(data->tte, data) == ERROR)
 		return (ERROR);
 	if (data->meals_flag)
 	{
+		if (pthread_mutex_lock(&data->philo[current_ph - 1].meals_mutex))
+			return (ERROR);
 		data->philo[current_ph - 1].meal++;
+		if (pthread_mutex_unlock(&data->philo[current_ph - 1].meals_mutex))
+			return (ERROR);
 		if (are_you_guys_done(data->philo))
 			return (ERROR);
 	}

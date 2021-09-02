@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 15:28:03 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:25:32 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_philo
 	int				nb;
 	int				fork;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	dinner_mutex;
+	pthread_mutex_t	meals_mutex;
 	long			last_dinner;
 	int				meal;
 	struct s_datas	*data;
@@ -54,6 +56,7 @@ typedef struct s_philo
 
 //AUTRES
 int		start_vandevilling(t_datas *data);
+int		set_left_philo(int *index, int current_ph, t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);

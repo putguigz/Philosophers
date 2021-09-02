@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 10:47:11 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 15:56:39 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 17:24:26 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	start_thinking(int current_ph, t_datas *data)
 
 int	tamagochi_philo(int thread_nb, t_datas *data)
 {
-	int ret;
+	int	ret;
 
 	if (take_forks(thread_nb, data))
 		return (ERROR);
