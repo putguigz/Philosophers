@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 10:47:11 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 19:11:22 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 19:24:58 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int	tamagochi_philo(int thread_nb, t_datas *data)
 	if (drop_forks(thread_nb, data))
 		return (ERROR);
 	if (data->nb == 1)
-		kill_philo(thread_nb, data);
+		ret = kill_philo(thread_nb, data);
+	if (ret)
+		return (ERROR);
 	if (data->nb != 1 && start_sleeping(thread_nb, data))
 		return (ERROR);
 	if (data->nb != 1 && start_thinking(thread_nb, data))
