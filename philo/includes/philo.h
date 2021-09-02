@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/06 16:50:08 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/01 15:12:53 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 15:28:03 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,16 @@ int		start_vandevilling(t_datas *data);
 
 //CLOCK
 long	get_time_elapsed(t_datas *data);
-int		my_usleep(int current_ph, int time, t_datas *data);
+int		my_usleep(int time, t_datas *data);
+
+//DEATH
+int		kill_philo(int current_ph, t_datas *data);
+int		check_death_variable(t_datas *data);
 
 //MULTI-THREADING
 int		launch_threads(t_datas *data);
 int		plato_died(int current_ph, t_datas *data);
+int		monitor_everyone(t_datas *data);
 
 //TAMAGOCHI_ACTIONS
 int		tamagochi_philo(int thread_nb, t_datas *data);

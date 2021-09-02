@@ -6,7 +6,7 @@
 #    By: gpetit <gpetit@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/06 16:53:31 by gpetit            #+#    #+#              #
-#    Updated: 2021/09/01 16:34:00 by gpetit           ###   ########.fr        #
+#    Updated: 2021/09/02 15:09:55 by gpetit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ NAME= philo
 
 CC= clang
 
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror -g3
 
 SRCS= $(addprefix srcs/, main.c utils.c utils2.c parsing.c philo.c clock.c \
-	threads.c actions.c eating.c)
+	threads.c actions.c eating.c monitoring.c)
 
 OBJS= $(SRCS:.c=.o)
 
