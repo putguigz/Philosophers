@@ -6,7 +6,7 @@
 /*   By: gpetit <gpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 14:27:03 by gpetit            #+#    #+#             */
-/*   Updated: 2021/09/02 17:29:22 by gpetit           ###   ########.fr       */
+/*   Updated: 2021/09/02 18:19:24 by gpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	monitor_everyone(t_datas *data)
 	ret = ALIVE;
 	while (1)
 	{
-		i = 0;
-		while (i < data->nb && ret == ALIVE)
+		i = -1;
+		while (++i < data->nb && ret == ALIVE)
 			ret = did_anyone_die(i + 1, data);
 		if (ret)
 			return (ret);
